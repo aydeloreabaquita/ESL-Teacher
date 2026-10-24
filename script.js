@@ -41,3 +41,36 @@ document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{document.quer
   document.fonts.ready.then(sync);
   sync();
 })();
+
+(() => {
+  const app = document.querySelector('.app');
+  const toggle = document.querySelector('.sidebar-toggle');
+  const compact = window.matchMedia('(max-width:950px)');
+  let preference = null;
+  try { const saved = localStorage.getItem('esl-sidebar-expanded'); if (saved !== null) preference = saved === 'true'; } catch {}
+  function apply() {
+    const expanded = preference === null ? !compact.matches : preference;
+    app.classList.toggle('sidebar-collapsed', !expanded);
+    app.classList.toggle('sidebar-expanded', expanded);
+    toggle.setAttribute('aria-expanded', String(expanded));
+    toggle.setAttribute('aria-label', expanded ? 'Collapse sidebar' : 'Expand sidebar');
+    toggle.textContent = expanded ? '‹' : '›';
+  }
+  document.querySelectorAll('.nav [data-view]').forEach(button => {
+    const label = button.querySelector('span').textContent;
+    button.setAttribute('aria-label', label);
+    button.querySelector('i').setAttribute('aria-hidden', 'true');
+    const tip = document.createElement('span');
+    tip.className = 'nav-tooltip';
+    tip.setAttribute('aria-hidden', 'true');
+    tip.textContent = label;
+    button.append(tip);
+  });
+  toggle.addEventListener('click', () => {
+    preference = toggle.getAttribute('aria-expanded') !== 'true';
+    try { localStorage.setItem('esl-sidebar-expanded', String(preference)); } catch {}
+    apply();
+  });
+  compact.addEventListener('change', apply);
+  apply();
+})();
