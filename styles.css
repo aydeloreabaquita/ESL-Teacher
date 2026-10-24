@@ -51,3 +51,47 @@ button,input,select{font-family:inherit}
 .profile>.avatar{flex:none}
 @media(min-width:951px){.sidebar-collapsed .profile .sidebar-toggle{right:-21px}}
 @media(min-width:621px) and (max-width:950px){.app:not(.sidebar-expanded) .profile .sidebar-toggle{right:-21px}}
+
+/* Shared interaction language for all dashboard views. */
+:root{--interaction-ease:cubic-bezier(.22,1,.36,1)}
+.card,.class-item,.list-item,.pay-box,.day,.lesson,.avail-day,.person .avatar,
+.primary,.icon-btn,.panel-head button,.status-actions button,.slot,.select,input,
+.search,.profile,.brand-mark,.progress i{
+ transition:transform .24s var(--interaction-ease),box-shadow .24s ease,
+ background-color .24s ease,border-color .24s ease,color .24s ease,filter .24s ease;
+}
+.primary:focus-visible,.icon-btn:focus-visible,.panel-head button:focus-visible,
+.status-actions button:focus-visible,.slot:focus-visible,.select:focus-visible,input:focus-visible{
+ outline:2px solid var(--blue);outline-offset:3px;
+ box-shadow:0 0 0 4px var(--sky);
+}
+.class-item:focus-within,.avail-day:focus-within{
+ border-color:var(--blue);box-shadow:0 4px 18px #17324d12;
+}
+@media(hover:hover) and (pointer:fine){
+ .card:hover{transform:translateY(-3px);border-color:#b8cfdf;box-shadow:0 12px 28px #17324d14}
+ .stat:hover{background:var(--sky)}
+ .class-item:hover{transform:translateX(3px);background:var(--sky);border-color:#b8cfdf;box-shadow:0 4px 14px #17324d0b}
+ .class-item:hover .person .avatar{transform:scale(1.08);background:var(--blue);color:var(--paper)}
+ .list-item:hover{background:var(--sky);box-shadow:inset 3px 0 var(--blue)}
+ .pay-box:hover{transform:translateY(-3px);box-shadow:0 7px 18px #17324d16;background:#dcecf7}
+ .primary:hover{transform:translateY(-2px);filter:brightness(1.08);box-shadow:0 6px 15px #17324d24}
+ .icon-btn:hover{transform:translateY(-2px);background:var(--sky);border-color:var(--blue)}
+ .panel-head button:hover{transform:translateX(3px);text-decoration:underline;text-underline-offset:4px}
+ .status-actions button:hover{transform:translateY(-2px);border-color:var(--blue);background:var(--sky);color:var(--navy)}
+ .status-actions button.selected:hover{background:var(--navy);color:var(--paper);filter:brightness(1.15)}
+ .avail-day:hover,.day:hover{transform:translateY(-3px);border-color:var(--blue);box-shadow:0 8px 22px #17324d12}
+ .slot:hover{transform:translateY(-2px);border-color:var(--blue);background:var(--sky);box-shadow:0 4px 10px #17324d12}
+ .slot.open:hover{background:#d6ece1;border-color:var(--green);color:#34765a}
+ .lesson:hover{transform:translateX(3px);box-shadow:0 4px 12px #17324d12}
+ .select:hover,input:hover,.search:hover{border-color:var(--blue);background:var(--sky)}
+ .profile:hover{background:#ffffff09}
+ .brand-mark:hover{transform:translateY(-2px);box-shadow:0 4px 12px #00000020}
+ .panel:hover .progress i{filter:brightness(1.12)}
+}
+.primary:active,.icon-btn:active,.status-actions button:active,.slot:active{transform:translateY(0) scale(.98)}
+@media(prefers-reduced-motion:reduce){
+ .card,.class-item,.list-item,.pay-box,.day,.lesson,.avail-day,.person .avatar,
+ .primary,.icon-btn,.panel-head button,.status-actions button,.slot,.select,input,
+ .search,.profile,.brand-mark,.progress i{transition:none!important;transform:none!important}
+}
