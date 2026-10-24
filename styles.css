@@ -12,3 +12,30 @@ button,input,select{font-family:inherit}
 .nav-glide{position:absolute;left:0;top:0;z-index:0;border-radius:10px;background:#ffffff16;pointer-events:none;opacity:0;transition:transform .55s cubic-bezier(.22,1.35,.36,1),width .45s cubic-bezier(.22,1,.36,1),height .45s ease,opacity .2s ease}
 .brand-logo{display:block;width:48px;height:39px;object-fit:contain;flex:none;border-radius:6px}
 @media(prefers-reduced-motion:reduce){.nav-glide,.nav button{transition:none}}
+
+/* Expand/collapse behavior inspired by the Astra sidebar reference. */
+.app{transition:grid-template-columns .35s cubic-bezier(.22,1,.36,1)}
+.sidebar{z-index:6}
+.brand-mark{flex:none;font:700 12px 'Manrope',sans-serif;border-radius:9px}
+.sidebar-toggle{position:absolute;right:-13px;top:34px;width:26px;height:26px;border:1px solid var(--line);border-radius:50%;background:var(--paper);color:var(--navy);font:700 22px/1 'Manrope',sans-serif;display:grid;place-items:center;cursor:pointer;z-index:3}
+.sidebar-toggle:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.nav button i{flex:none}
+.nav-tooltip{display:none;position:absolute;left:calc(100% + 14px);top:50%;transform:translateY(-50%);background:var(--navy);color:var(--paper);font-size:12px;padding:8px 11px;border-radius:7px;white-space:nowrap;box-shadow:0 4px 14px #17324d20;pointer-events:none}
+@media(min-width:951px){
+.app.sidebar-collapsed{grid-template-columns:78px 1fr}
+.sidebar-collapsed .sidebar{padding-inline:12px}
+.sidebar-collapsed .brand{margin-inline:auto}
+.sidebar-collapsed .brand>span:last-child,.sidebar-collapsed .nav-label,.sidebar-collapsed .nav button>span:not(.nav-tooltip),.sidebar-collapsed .profile>div:last-child{display:none}
+.sidebar-collapsed .nav button{justify-content:center}
+.sidebar-collapsed .nav button:hover .nav-tooltip,.sidebar-collapsed .nav button:focus-visible .nav-tooltip{display:block}
+}
+@media(min-width:621px) and (max-width:950px){
+.app.sidebar-expanded{grid-template-columns:238px 1fr}
+.sidebar-expanded .sidebar{padding-inline:20px}
+.sidebar-expanded .brand{margin:0 8px 35px}
+.sidebar-expanded .brand strong,.sidebar-expanded .brand small,.sidebar-expanded .nav-label,.sidebar-expanded .nav button>span:not(.nav-tooltip),.sidebar-expanded .profile>div:last-child{display:block}
+.sidebar-expanded .nav button{justify-content:flex-start}
+.app:not(.sidebar-expanded) .nav button:hover .nav-tooltip,.app:not(.sidebar-expanded) .nav button:focus-visible .nav-tooltip{display:block}
+}
+@media(max-width:620px){.sidebar-toggle{display:none}}
+@media(prefers-reduced-motion:reduce){.app{transition:none}}
