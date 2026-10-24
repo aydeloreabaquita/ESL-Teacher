@@ -95,3 +95,8 @@ button,input,select{font-family:inherit}
  .primary,.icon-btn,.panel-head button,.status-actions button,.slot,.select,input,
  .search,.profile,.brand-mark,.progress i{transition:none!important;transform:none!important}
 }
+
+/* Highlight the full daily earnings row without a left accent. */
+@media(hover:hover) and (pointer:fine){
+ #earnings .list-item:hover{background:var(--sky);box-shadow:none}
+}
