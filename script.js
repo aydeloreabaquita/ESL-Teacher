@@ -8,3 +8,36 @@ const days=['Mon 24','Tue 25','Wed 26','Thu 27','Fri 28','Sat 29','Sun 30'],time
 document.querySelector('#availabilityGrid').onclick=e=>{if(!e.target.classList.contains('slot'))return;e.target.classList.toggle('open');document.querySelector('#openStat').textContent=document.querySelectorAll('.slot.open').length};document.querySelector('#saveAvailability').onclick=e=>{e.target.textContent='✓ Availability saved';setTimeout(()=>e.target.textContent='Save availability',1600)};
 document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-view]').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.querySelector('#'+b.dataset.view).classList.add('active')});document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>document.querySelector(`[data-view="${b.dataset.go}"]`).click());
 
+
+/* Adapt the PillNav glide to both the vertical and mobile navigation. */
+(() => {
+  const nav = document.querySelector('.nav');
+  const buttons = [...nav.querySelectorAll('[data-view]')];
+  const glide = document.createElement('span');
+  glide.className = 'nav-glide';
+  glide.setAttribute('aria-hidden', 'true');
+  nav.prepend(glide);
+  let hovered = null;
+  function sync() {
+    buttons.forEach(button => {
+      if (button.classList.contains('active')) button.setAttribute('aria-current', 'page');
+      else button.removeAttribute('aria-current');
+    });
+    const target = hovered || (nav.contains(document.activeElement) && buttons.includes(document.activeElement) ? document.activeElement : null) || buttons.find(button => button.classList.contains('active'));
+    if (!target) { glide.style.opacity = '0'; return; }
+    glide.style.width = target.offsetWidth + 'px';
+    glide.style.height = target.offsetHeight + 'px';
+    glide.style.transform = 'translate(' + target.offsetLeft + 'px,' + target.offsetTop + 'px)';
+    glide.style.opacity = '1';
+  }
+  buttons.forEach(button => {
+    button.addEventListener('pointerenter', () => { hovered = button; sync(); });
+    button.addEventListener('focus', sync);
+    button.addEventListener('click', sync);
+  });
+  nav.addEventListener('pointerleave', () => { hovered = null; sync(); });
+  nav.addEventListener('focusout', () => requestAnimationFrame(sync));
+  new ResizeObserver(sync).observe(nav);
+  document.fonts.ready.then(sync);
+  sync();
+})();
